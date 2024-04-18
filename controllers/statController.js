@@ -49,7 +49,7 @@ exports.getData = async (req, res) => {
         : 0;
     res.json({
       totalBookings,
-      totalSales,
+      totalSales = 900,
       checkIns,
       occupancyRate,
     });
