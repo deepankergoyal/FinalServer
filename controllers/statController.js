@@ -8,7 +8,6 @@ exports.getData = async (req, res) => {
     const totalSales = await Booking.aggregate([
       {
         $group: {
-          _id: null,
           totalSales: { $sum: "$regularPrice" },
         },
       },
