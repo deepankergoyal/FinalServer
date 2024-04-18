@@ -23,7 +23,7 @@ exports.getAllCottage = async (req, res) => {
 // Search booking by ID
 exports.getCottage = async (req, res) => {
   try {
-    const cottage = await Cottage.findById(req.query.id);
+    const cottage = await Cottage.findById(req.params.id);
 
     if (!cottage) {
       return res.status(404).json({
