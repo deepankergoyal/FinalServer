@@ -1,5 +1,5 @@
 const Booking = require("./../models/bookingSchema");
-const Cottage = require("./../models/cabinSchema"); // Update import to Cottage
+const Cottage = require("./../models/cabinSchema");
 const Guest = require("./../models/guestSchema");
 
 exports.getData = async (req, res) => {
@@ -8,6 +8,7 @@ exports.getData = async (req, res) => {
     const totalSales = await Booking.aggregate([
       {
         $group: {
+          _id: null,
           totalSales: { $sum: "$regularPrice" },
         },
       },
@@ -18,10 +19,9 @@ exports.getData = async (req, res) => {
       endDate: { $gte: new Date() },
       isPaid: true,
     });
-    const cottages = await Cottage.find(); // Change variable name to cottages
+    const cottages = await Cottage.find();
     const totalCapacity = cottages.reduce(
-      // Change variable name to cottages
-      (acc, cottage) => acc + cottage.maxCapacity, // Change variable name to cottage
+      (acc, cottage) => acc + cottage.maxCapacity,
       0
     );
     const occupiedCapacity = await Booking.aggregate([
@@ -39,17 +39,13 @@ exports.getData = async (req, res) => {
       },
     ]);
 
-    // Check if occupiedCapacity has elements
     const occupancyRate =
       occupiedCapacity.length > 0
-        ? (
-            (occupiedCapacity[0].occupiedCapacity / totalCapacity) *
-            100
-          ).toFixed(2)
+        ? ((occupiedCapacity[0].occupiedCapacity / totalCapacity) * 100).toFixed(2)
         : 0;
     res.json({
       totalBookings,
-      totalSales = 900,
+      totalSales: totalSales.length > 0 ? totalSales[0].totalSales : 0,
       checkIns,
       occupancyRate,
     });
