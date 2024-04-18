@@ -49,7 +49,7 @@ exports.getData = async (req, res) => {
         : 0;
     res.json({
       totalBookings,
-      totalSales: totalSales.length ? totalSales[0].totalSales : 0,
+      totalSales,
       checkIns,
       occupancyRate,
     });
