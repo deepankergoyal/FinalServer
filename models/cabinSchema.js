@@ -5,7 +5,7 @@ const cabinSchema = new mongoose.Schema({
     maxCapacity: { type: Number, required: true },
     regularPrice: { type: Number, required: true },
     discount: { type: Number, required: true },
-    image: { type: String, required: true },
+    image: { type: String },
     description: { type: String, required: true }
 });
 
